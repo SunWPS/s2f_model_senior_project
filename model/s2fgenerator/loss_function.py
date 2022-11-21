@@ -93,4 +93,3 @@ class Total_loss:
             :rtype: method
         """
         return self.total_loss
-    

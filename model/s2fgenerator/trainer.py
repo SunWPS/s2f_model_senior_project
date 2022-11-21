@@ -256,4 +256,3 @@ class GAN_trainer:
         
         end = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
         print(f"Successfully | start: {start}, end: {end}")
-            

@@ -329,4 +329,3 @@ class GAN(Base_model):
         g.load_weights(model_weight_path)
         g.compile(loss=self.loss_func, optimizer=self.optimizer, loss_weights=self.loss_weights)
         return g
-        

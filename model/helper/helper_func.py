@@ -2,8 +2,18 @@
 import h5py
 import numpy as np
 import cv2
+from matplotlib import pyplot as plt
 
 def load_h5_data(file_name):
+    """
+        load data from .h5
+        
+        :param file_name: data file .h5
+        :type file_name: string
+        
+        :return: sketches and target images
+        :rtype: np.ndarray, np.ndarray
+    """
     with h5py.File(file_name, "r+") as file:
         sketches = np.array(file['/sketches']).astype('uint8')
         images = np.array(file['/images']).astype('uint8')
@@ -19,22 +29,65 @@ def load_h5_data(file_name):
 
 
 def rescale(images):
+    """
+        rescale image from (-1,1) to (0-1)
+        
+        :param images: list of image
+        :type images: np.ndarray
+        
+        :return: rescaled images
+        :rtype: np.ndarray
+    """
     return (images + 1) / 2.0
 
 
 def sketch(img):
-    grey_img=cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    img_invert = cv2.bitwise_not(grey_img)
+    """
+        prepare data before predict
+        
+        :param img: image
+        :type img: np.ndarray
+        
+        :return: sketch image
+        :rtype: np.np.ndarray
+        
+    """
+    img_invert = cv2.bitwise_not(img)
     blur_img=cv2.GaussianBlur(img_invert, (71,71),0)
     invblur_img=cv2.bitwise_not(blur_img)
-    sketch_img=cv2.divide(grey_img,invblur_img, scale=256.0)
+    sketch_img=cv2.divide(img, invblur_img, scale=256.0)
     return sketch_img
 
+
 def resize(image):
+    """
+        resize image to W 256 x H 256
+        
+        :param image: image
+        :type image: np.ndarray
+        
+        :return: resize image
+        :rtype: np.ndarray
+    """
     return cv2.resize(image, (256,256), interpolation = cv2.INTER_AREA)
 
 
 def predict_one_img(generator, img, out_path):
+    """
+        predict image
+        
+        :param generator: Generator model
+        :type generator: keras.engine.functional.Functional
+        
+        :param img: sketch image
+        :type img: np.ndarray
+        
+        :param out_path: output path for save generated image
+        :type out_path: string
+        
+        :return: generated image
+        :rtype: np.ndarray
+    """
     img = resize(img)
     img = sketch(img)
     img = np.stack((img,)*3, axis=-1)
@@ -44,5 +97,14 @@ def predict_one_img(generator, img, out_path):
     
     cv2.imwrite(out_path, rescale(gen[0]) * 255)
     
+    return gen
     
     
+def plot_one_gen_image(gen_result):
+    """
+        plot generate image
+        
+        :param gen_result: generated image
+        :type gen_result: np.ndarray
+    """
+    plt.imshow(rescale(gen_result[0])[...,::-1])

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+pip install gdown
+
 # generator
 gdown https://drive.google.com/uc?id=1RycKSVwby5829f4jPR8wBCXvh21gRLXL
 
