@@ -167,16 +167,26 @@ class Discriminator(Base_model):
     """
         Discriminator model for (W 256 x H 256)
         
+        :param optimizer: optimizer for discriminator model
+        
+        :param loss_func: loss function for discriminator model (default='binary_crossentropy')
+        
+        :loss_weight: loss weight for discriminator model (defalut=[0.5])
+        
         :param n_kernel: number of kernels for Convolution (default=4)
         :type n_kernel: int
         
         :param n_strides: number of strides for Convolution (default=1)
         :type n_strides: int
     """
-    def __init__(self, n_kernels=4, n_strides=2):
+    def __init__(self, optimizer, loss_func='binary_crossentropy', loss_weight=[0.5], n_kernels=4, n_strides=2):
         super().__init__()
+        self.optimizer = optimizer
+        self.loss_func = loss_func
+        self.loss_weight = loss_weight
         self.n_kernels = n_kernels
         self.n_strides = n_strides
+        
         
     # overrideing abstract method
     def build(self):
@@ -238,6 +248,8 @@ class Discriminator(Base_model):
         out_layer = Activation(activations.sigmoid)(out_layer)
         
         model = Model(inputs=[src_input_layer, target_input_layer], outputs=out_layer, name='Discriminator')
+        
+        model.compile(loss=self.loss_func, optimizer=self.optimizer, loss_weights=self.loss_weights, metrics=['accuracy'])
         return model
     
     # overrideing abstract method
@@ -253,6 +265,7 @@ class Discriminator(Base_model):
         """ 
         d = self.build()
         d.load_weights(model_weight_path)
+        d.compile(loss=self.loss_func, optimizer=self.optimizer, loss_weights=self.loss_weights, metrics=['accuracy'])
         return d
 
 
@@ -265,11 +278,20 @@ class GAN(Base_model):
         
         :param discriminator: discriminator model
         :type discriminator: keras.engine.functional.Functional
+        
+        :param optimizer: optimizer for GAN model
+        
+        :param loss_func: loss function for GAN model (default=['binary_crossentropy', 'mae'])
+        
+        :param loss_weights: loss weights for GAN model (default=[1,100])
     """
-    def __init__(self, generator, discriminator):
+    def __init__(self, generator, discriminator, optimizer, loss_func=['binary_crossentropy', 'mae'], loss_weights=[1,100]):
         super().__init__()
         self.generator = generator
         self.discriminator = discriminator
+        self.optimizer = optimizer
+        self.loss_func = loss_func
+        self.loss_weights = loss_weights
     
     # overrideing abstract method
     def build(self):
@@ -289,6 +311,7 @@ class GAN(Base_model):
         discriminator_layer = self.discriminator([input_layer, generator_layer])
         
         model = Model(inputs=input_layer, outputs=[discriminator_layer, generator_layer], name='GAN')
+        model.compile(loss=self.loss_func, optimizer=self.optimizer, loss_weights=self.loss_weights)
         return model
     
     # overrideing abstract method
@@ -304,5 +327,6 @@ class GAN(Base_model):
         """ 
         g = self.build()
         g.load_weights(model_weight_path)
+        g.compile(loss=self.loss_func, optimizer=self.optimizer, loss_weights=self.loss_weights)
         return g
         

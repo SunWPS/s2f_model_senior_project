@@ -54,19 +54,19 @@ class GAN_trainer:
 
     def get_real_sample_images_data(self, n_samples, n_patch=1, seed=None):
         """
-        Random images for training 
-        
-        :param n_samples: number of random images
-        :type n_samples: int
-        
-        :param n_patch: patch shape (default=1)
-        :type n_patch: int
-        
-        :param seed: a random seed (default=None)
-        :type seed: int
-        
-        :return: sample of images data and label
-        :rtype: np.ndarray, np.ndarray, np.ndarray
+            Random images for training 
+            
+            :param n_samples: number of random images
+            :type n_samples: int
+            
+            :param n_patch: patch shape (default=1)
+            :type n_patch: int
+            
+            :param seed: a random seed (default=None)
+            :type seed: int
+            
+            :return: sample of images data and label
+            :rtype: np.ndarray, np.ndarray, np.ndarray
         """
         # random isinstance
         rnd = default_rng(seed=seed)
@@ -83,16 +83,16 @@ class GAN_trainer:
     
     def generate_sample_fake_data(self, samples, n_patch=1):
         """
-        Generate fake image from sample data
-        
-        :param samples: sample data
-        :type samples: np.ndarray
-        
-        :param n_patch: patch shape (default=1)
-        :type n_patch: int
-        
-        :return: Generated images and label
-        :rtype: np.ndarray, np.ndarray
+            Generate fake image from sample data
+            
+            :param samples: sample data
+            :type samples: np.ndarray
+            
+            :param n_patch: patch shape (default=1)
+            :type n_patch: int
+            
+            :return: Generated images and label
+            :rtype: np.ndarray, np.ndarray
         """
         # generate fake images
         X = self.generator.predict(samples)
@@ -105,27 +105,27 @@ class GAN_trainer:
     
     def summarize(self, iteration, n_samples, seed=None):
         """
-        Summarize and generate sample images while training
-        
-        :param iteration: number of iteration 
-        :type iteration: int
-        
-        :param n_sample: number of images that want to show in summarize image
-        :type n_sample: int
-        
-        :param seed: a random seed (default=None)
-        :type seed: int
+            Summarize and generate sample images while training
+            
+            :param iteration: number of iteration 
+            :type iteration: int
+            
+            :param n_sample: number of images that want to show in summarize image
+            :type n_sample: int
+            
+            :param seed: a random seed (default=None)
+            :type seed: int
         """
         
         def rescale(images):
             """
-            rescale image from (-1,1) to (0,1)
-            
-            :param images: list of images
-            :type images: np.ndarray
-            
-            :return iamges: list of rescaled images
-            :rtype: np.ndarray
+                rescale image from (-1,1) to (0,1)
+                
+                :param images: list of images
+                :type images: np.ndarray
+                
+                :return iamges: list of rescaled images
+                :rtype: np.ndarray
             """
             return (images + 1) / 2.0
         
@@ -168,22 +168,22 @@ class GAN_trainer:
     
     def plot_history(self, list_d_loss1, list_d_loss2, list_g_loss, list_d_acc1, list_d_acc2):
         """
-        Plot the history graph of the model after training. It will show g_loss, d_loss1, d_loss2, d_acc1, and d_acc2.
-        
-        :param list_d_loss1: list of d_loss1
-        :type list_d_loss1: list
-        
-        :param list_d_loss2: list of d_loss2
-        :type list_d_loss2: list
-        
-        :param list_g_loss: list of g_loss
-        :type list_g_loss: list
-        
-        :param list_d_acc1: list of d_acc1
-        :type list_d_acc1: list
-        
-        :param list_d_acc2: list of d_acc2
-        :type list_d_acc2: list
+            Plot the history graph of the model after training. It will show g_loss, d_loss1, d_loss2, d_acc1, and d_acc2.
+            
+            :param list_d_loss1: list of d_loss1
+            :type list_d_loss1: list
+            
+            :param list_d_loss2: list of d_loss2
+            :type list_d_loss2: list
+            
+            :param list_g_loss: list of g_loss
+            :type list_g_loss: list
+            
+            :param list_d_acc1: list of d_acc1
+            :type list_d_acc1: list
+            
+            :param list_d_acc2: list of d_acc2
+            :type list_d_acc2: list
         """
         plt.subplot(311)
         plt.plot(list_g_loss, label="g_loss")

@@ -1,8 +1,4 @@
-from s2fgenerator.model import Generator, Discriminator, GAN
+from s2fgenerator.loss_function import Total_loss
 
-g = Generator().load_model("model_saved/generator_weight.h5")
-d = Discriminator().load_model("model_saved/discriminator_weight.h5")
-
-gan = GAN(g, d).load_model("model_saved/gan_weight.h5")
-
-print(gan.summary())
+total_loss = Total_loss(10).get_total_loss_func()
+print(type(total_loss))
