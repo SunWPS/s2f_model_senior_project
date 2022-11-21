@@ -1,0 +1,5 @@
+opencv-python
+numpy
+matplotlib
+h5py
+tensorflow==2.8
