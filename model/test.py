@@ -1,12 +1,8 @@
 from s2fgenerator.model import Generator, Discriminator, GAN
-from keras.utils.vis_utils import plot_model
 
-g = Generator().build()
-print(g.summary())
-d = Discriminator().build()
-print(d.summary())
+g = Generator().load_model("model_saved/generator_weight.h5")
+d = Discriminator().load_model("model_saved/discriminator_weight.h5")
 
-gan = GAN(g, d).build()
+gan = GAN(g, d).load_model("model_saved/gan_weight.h5")
+
 print(gan.summary())
-
-plot_model(gan, to_file='model_architecture_img/gan.png', show_shapes=True, show_layer_names=True)
