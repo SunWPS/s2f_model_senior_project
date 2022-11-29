@@ -16,3 +16,5 @@ torchvision
 tqdm
 yapf
 gfpgan
+Flask
+flask-cors

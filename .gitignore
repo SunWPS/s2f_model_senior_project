@@ -172,3 +172,4 @@ base.py
 gfpgan/
 GFPGANv1.3.pth
 # End of https://www.toptal.com/developers/gitignore/api/python
+*.png
