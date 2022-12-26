@@ -71,13 +71,11 @@ class Evaluater:
         return tf.get_static_value(is_score)
     
     
-    
-    
     def calculate_psnr_and_ssim(self, real_images, gen_images):
         mse = self.calculate_psnr(real_images, gen_images)
         ssim = self.calculate_ssim(real_images, gen_images)
         
-        return "PSNR: %.2f SSIM %.2f" %(mse, 0.86)
+        return "PSNR: %.2f SSIM %.2f" %(mse, ssim)
     
     
   
