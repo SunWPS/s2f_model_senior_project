@@ -77,5 +77,4 @@ class Evaluater:
         
         return "PSNR: %.2f SSIM %.2f" %(mse, ssim)
     
-    
   
