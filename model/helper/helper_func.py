@@ -2,6 +2,7 @@
 import h5py
 import numpy as np
 import cv2
+import os
 from matplotlib import pyplot as plt
 
 def load_h5_data(file_name):
@@ -108,3 +109,16 @@ def plot_one_gen_image(gen_result):
         :type gen_result: np.ndarray
     """
     plt.imshow(rescale(gen_result[0])[...,::-1])
+    
+
+def load_images(n_images, dir_path, gray=False):
+    image_list = []
+    
+    for i in range(1, n_images + 1):
+        if gray == False:
+            img = cv2.imread(dir_path + f"/{i}.jpg")
+        else:
+            img = cv2.imread(dir_path + f"/{i}.jpg", 0)
+        img = resize(img)
+        image_list.append(img)
+    return np.array(image_list)

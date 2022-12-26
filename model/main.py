@@ -3,7 +3,7 @@ import sys
 
 from s2fgenerator.model import Generator
 from enhancer.gfpgan import GFPGAN
-from helper.helper_func import predict_one_img, plot_one_gen_image
+from helper.helper_func import predict_one_img
 
 
 def main():
@@ -19,11 +19,11 @@ def main():
     
     ## Predict stage 1 by ours model
     image = cv2.imread(img_path, 0)
-    predict_one_img(generator, image, 'img_output/1_generated/gen.png')
+    predict_one_img(generator, image, 'img_output/1_generated/gen2.png')
     
     ## enchance image by gfpgan
-    gen_image = cv2.imread('img_output/1_generated/gen.png', cv2.IMREAD_COLOR)
-    gfpgan.enhance(gen_image, 'img_output/2_enhanced/enhanced.png')
+    gen_image = cv2.imread('img_output/1_generated/gen2.png', cv2.IMREAD_COLOR)
+    gfpgan.enhance(gen_image, 'img_output/2_enhanced/enhanced2.png')
     
     print("Finish")
     return
