@@ -22,8 +22,7 @@ def formHandling():
         secImg = response.content
         with open("static/temp.png", 'wb') as f:
             f.write(secImg)    
-        return send_file("D:\work\s2f_model_senior_project\web\static\\temp.png", mimetype='image/png')
-        # return render_template('template.html', sec_img="/static/temp.png")
+        return send_file("static/temp.png", mimetype='image/png')
     return 'data not sent!',404
 
 @app.route('/save', methods=['POST'])

@@ -20,11 +20,10 @@ from helper.helper_func import predict_one_img, plot_one_gen_image
 from flask_cors import CORS, cross_origin
 from enhancer.gfpgan import GFPGAN
 
-
-modelPath = 'D:\work\s2f_model_senior_project\model\model_saved\generator_weight.h5'
-gfpgan = GFPGAN('D:\work\s2f_model_senior_project\model\model_saved\GFPGANv1.3.pth')
-predictOnePath='D:\work\s2f_model_senior_project\\api\\firstImg.png'
-predictTwoPath='D:\work\s2f_model_senior_project\\api\\secondImg.png'
+modelPath = os.path.join(*[ROOT_DIR, 'model', 'model_saved', 'generator_weight.h5'])
+gfpgan = GFPGAN(os.path.join(*[ROOT_DIR, 'model', 'model_saved', 'GFPGANv1.3.pth']))
+predictOnePath= os.path.join(*[ROOT_DIR, 'api', 'firstImg.png'])
+predictTwoPath= os.path.join(*[ROOT_DIR, 'api', 'secondImg.png'])
 
 app = Flask(__name__)
 
@@ -45,11 +44,11 @@ def process_image():
     predict_one_img(generator, cv2.imread(ofname,0), predictOnePath)
     os.close(ofile)
     os.remove(ofname)
-    # gen_image = cv2.imread(predictOnePath, cv2.IMREAD_COLOR)
+    gen_image = cv2.imread(predictOnePath, cv2.IMREAD_COLOR)
     # print(smt)
-    return send_file(predictOnePath, mimetype='image/png')
-    # gfpgan.enhance(gen_image, predictTwoPath)
-    # return send_file(predictTwoPath, mimetype='image/png')
+    # return send_file(predictOnePath, mimetype='image/png')
+    gfpgan.enhance(gen_image, predictTwoPath)
+    return send_file(predictTwoPath, mimetype='image/png')
 
 
 
