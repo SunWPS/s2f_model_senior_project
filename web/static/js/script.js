@@ -12,7 +12,7 @@ image_input.addEventListener("change", function() {
 formElem.onsubmit = async (e) => {
     e.preventDefault();
 
-    let response = await fetch('http://127.0.0.1:5000/image', {
+    let response = await fetch('/formHandling', {
       method: 'POST',
       body: new FormData(formElem)
     });

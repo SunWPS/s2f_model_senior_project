@@ -3,8 +3,7 @@
 <header>
 <meta charset="UTF-8">
 <title>web</title>
-<link rel="stylesheet" href="design.css" />
-<script src="script.js" async></script>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/design.css') }}">
 </header>
 <body>
     <div  class="container">
@@ -13,8 +12,10 @@
             <div id="display-image" class="imag"></div>
           <input type="submit">
         </form>
-          <div id="receive-image" class="imag"></div> 
+          <img id="receive-image" class="imag" ></div> 
+          <h1>{{ sec_img }}</h1>
     </div>
 </body> 
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </html>
 
