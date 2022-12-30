@@ -1,20 +1,22 @@
 <!DOCTYPE html>
-
-<header>
-<meta charset="UTF-8">
-<title>web</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='css/design.css') }}">
-</header>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>web</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/design.css') }}">
+</head>
 <body>
     <div  class="container">
         <form id="formElem" >
-          <input type="file" id="image-input" accept="image/*" name="image">
+          <input type="file" id="image-input" accept="image/*" name="image" required>
             <div id="display-image" class="imag"></div>
           <input type="submit">
         </form>
           <div id="receive-image" class="imag" ></div> 
+          <a href="" id="a"><button id="saveImage">Save image</button></a>
+          <button onclick="saveDB()" id="saveDB">saveDB</button>
     </div>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body> 
-<script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </html>
 

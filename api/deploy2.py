@@ -1,8 +1,7 @@
 from flask import Flask, request, send_file , Response
-from flask_sqlalchemy import SQLAlchemy
 import os
 import sys
-import numpy
+
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__)) 
 if "\\" in CURRENT_DIR:
@@ -46,9 +45,9 @@ def process_image():
     os.remove(ofname)
     gen_image = cv2.imread(predictOnePath, cv2.IMREAD_COLOR)
     # print(smt)
-    # return send_file(predictOnePath, mimetype='image/png')
-    gfpgan.enhance(gen_image, predictTwoPath)
-    return send_file(predictTwoPath, mimetype='image/png')
+    return send_file(predictOnePath, mimetype='image/png')
+    # gfpgan.enhance(gen_image, predictTwoPath)
+    # return send_file(predictTwoPath, mimetype='image/png')
 
 
 
