@@ -1,13 +1,11 @@
+numpy==1.23.5
 opencv-python
-numpy
 matplotlib
 h5py
 tensorflow==2.8
 basicsr>=1.4.2
 facexlib>=0.2.5
 lmdb
-numpy
-opencv-python
 pyyaml
 scipy
 tb-nightly

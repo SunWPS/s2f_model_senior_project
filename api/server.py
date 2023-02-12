@@ -30,6 +30,10 @@ cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 generator = Generator().load_model(modelPath)
 
+@app.route('/')
+def hello_world():
+    return 'Hello, World'
+
 @app.route("/image", methods=["POST"])
 @cross_origin()
 def process_image():
@@ -61,4 +65,5 @@ def get_img(id):
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    # app.run(debug=True)
+    app.run(host="0.0.0.0", debug=True)
