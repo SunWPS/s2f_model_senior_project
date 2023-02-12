@@ -45,9 +45,9 @@ def process_image():
     os.remove(ofname)
     gen_image = cv2.imread(predictOnePath, cv2.IMREAD_COLOR)
     # print(smt)
-    return send_file(predictOnePath, mimetype='image/png')
-    # gfpgan.enhance(gen_image, predictTwoPath)
-    # return send_file(predictTwoPath, mimetype='image/png')
+    # return send_file(predictOnePath, mimetype='image/png')
+    gfpgan.enhance(gen_image, predictTwoPath)
+    return send_file(predictTwoPath, mimetype='image/png')
 
 
 
