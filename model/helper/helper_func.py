@@ -73,7 +73,7 @@ def resize(image):
     return cv2.resize(image, (256,256), interpolation = cv2.INTER_AREA)
 
 
-def predict_one_img(generator, img, out_path):
+def predict_one_img(generator, img, out_path, base_black_img_path=None, b_level=False):
     """
         predict image
         
@@ -87,9 +87,13 @@ def predict_one_img(generator, img, out_path):
         :type out_path: string
         
         :return: generated image
-        :rtype: np.ndarray
+        :rtype: np.ndar ray
     """
+    if b_level == True:
+        base_black_img = cv2.imread(base_black_img_path)
     img = resize(img)
+    if b_level == True:
+        img = black_level(base_black_img, img)
     img = sketch(img)
     img = np.stack((img,)*3, axis=-1)
     img = (img / 127.5) - 1
@@ -122,3 +126,15 @@ def load_images(n_images, dir_path, gray=False):
         img = resize(img)
         image_list.append(img)
     return np.array(image_list)
+
+
+def black_level(base_img, tg_img):
+    gray1 = cv2.cvtColor(base_img, cv2.COLOR_BGR2GRAY).astype(np.int16)
+    gray2 = tg_img.astype(np.int16)
+    
+    min_pixel1 = gray1.min()
+    min_pixel2 = gray2.min()
+    
+    diff = min_pixel1 - min_pixel2
+    
+    return np.clip(tg_img.astype(np.int16) + diff, 0, 255).astype(np.uint8)

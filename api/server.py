@@ -20,9 +20,10 @@ from flask_cors import CORS, cross_origin
 from enhancer.gfpgan import GFPGAN
 
 modelPath = os.path.join(*[ROOT_DIR, 'model', 'model_saved', 'generator_weight.h5'])
-gfpgan = GFPGAN(os.path.join(*[ROOT_DIR, 'model', 'model_saved', 'GFPGANv1.3.pth']))
-predictOnePath= os.path.join(*[ROOT_DIR, 'api', 'firstImg.png'])
-predictTwoPath= os.path.join(*[ROOT_DIR, 'api', 'secondImg.png'])
+gfpgan = GFPGAN(os.path.join(*[ROOT_DIR, 'model', 'model_saved', 'GFPGANv1.4.pth']))
+predictOnePath = os.path.join(*[ROOT_DIR, 'api', 'firstImg.png'])
+predictTwoPath = os.path.join(*[ROOT_DIR, 'api', 'secondImg.png'])
+base_back_img = os.path.join(*[ROOT_DIR, 'api', 'og.jpg'])
 
 app = Flask(__name__)
 
@@ -44,13 +45,17 @@ def process_image():
     file.save(ofname)
     # Read the image via file.stream
     # print(cv2.imdecode(numpy.fromstring(file.read(), numpy.uint8), cv2.IMREAD_UNCHANGED).shape())
-    predict_one_img(generator, cv2.imread(ofname,0), predictOnePath)
+    predict_one_img(generator, cv2.imread(ofname,0), predictOnePath, base_black_img_path=base_back_img, b_level=True)
     os.close(ofile)
     os.remove(ofname)
     gen_image = cv2.imread(predictOnePath, cv2.IMREAD_COLOR)
     # print(smt)
     # return send_file(predictOnePath, mimetype='image/png')
-    gfpgan.enhance(gen_image, predictTwoPath)
+    for i in range(2):
+        if i == 0:
+            gfpgan.enhance(gen_image, predictTwoPath)
+        else:
+            gfpgan.enhance(predictTwoPath, predictTwoPath)
     return send_file(predictTwoPath, mimetype='image/png')
 
 
@@ -66,4 +71,5 @@ def get_img(id):
 
 if __name__ == "__main__":
     # app.run(debug=True)
-    app.run(host="0.0.0.0", debug=True)
+    app.run(host="0.0.0.0", debug=True, port=int(os.environ.get("PORT", 5000)))
+    
