@@ -164,12 +164,11 @@ cython_debug/
 #.idea/
 
 # MyModel
-discriminator_weight.h5
-gan_weight.h5
-generator_weight.h5
+*.h5
 
 base.py
 gfpgan/
+GFPGANv1.3.pth
 GFPGANv1.4.pth
 # End of https://www.toptal.com/developers/gitignore/api/python
 *.png

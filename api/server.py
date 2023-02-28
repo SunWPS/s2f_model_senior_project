@@ -48,14 +48,15 @@ def process_image():
     predict_one_img(generator, cv2.imread(ofname,0), predictOnePath, base_black_img_path=base_back_img, b_level=True)
     os.close(ofile)
     os.remove(ofname)
-    gen_image = cv2.imread(predictOnePath, cv2.IMREAD_COLOR)
     # print(smt)
     # return send_file(predictOnePath, mimetype='image/png')
     for i in range(2):
         if i == 0:
+            gen_image = cv2.imread(predictOnePath, cv2.IMREAD_COLOR)
             gfpgan.enhance(gen_image, predictTwoPath)
         else:
-            gfpgan.enhance(predictTwoPath, predictTwoPath)
+            gen_image = cv2.imread(predictTwoPath, cv2.IMREAD_COLOR)
+            gfpgan.enhance(gen_image, predictTwoPath)
     return send_file(predictTwoPath, mimetype='image/png')
 
 
