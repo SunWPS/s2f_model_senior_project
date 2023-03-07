@@ -31,7 +31,7 @@ def main():
         generator = Generator().load_model('model_saved/generator_weight.h5')
         gfpgan = GFPGAN('model_saved/GFPGANv1.4.pth')
     
-    ## Predict stage 1 by ours model
+    # ## Predict stage 1 by ours model
     if ver == "1":
         image = cv2.imread(img_path, 0)
         predict_one_img(generator, image, 'img_output/1_generated/gen2.png', base_black_img_path="og.jpg", b_level=True)
@@ -39,21 +39,27 @@ def main():
         image = cv2.imread(img_path, 0)
         predict_one_img(generator, image, 'img_output/1_generated/gen2.png', base_black_img_path="og.jpg", b_level=True)
     
-    ## enchance image by gfpgan
+    # ## enchance image by gfpgan
     gen_image = cv2.imread('img_output/1_generated/gen2.png', cv2.IMREAD_COLOR)
     gfpgan.enhance(gen_image, 'img_output/2_enhanced/enhanced2.png')
     
-    ## enchance image by gfpgan
-    # gen_image = cv2.imread('img_output/2_enhanced/enhanced2.png', cv2.IMREAD_COLOR)
-    # gfpgan.enhance(gen_image, 'img_output/3_enhanced/enhanced3.png')
+    # ## enchance image by gfpgan
+    gen_image = cv2.imread('img_output/2_enhanced/enhanced2.png', cv2.IMREAD_COLOR)
+    gfpgan.enhance(gen_image, 'img_output/3_enhanced/enhanced3.png')
     
-    image = cv2.imread(img_path, 0)
+    
+    # image = cv2.imread(img_path)
+    og = cv2.imread(img_path, 0)
+    og = cv2.resize(og, (256,256), interpolation = cv2.INTER_AREA)
     img = cv2.imread('img_output/3_enhanced/enhanced3.png')
+    img = cv2.resize(img, (256,256), interpolation = cv2.INTER_AREA)
+    img2 = cv2.imread('img_output/3_enhanced/enhanced3.png', 0)
+    img2 = cv2.resize(img2, (256,256), interpolation = cv2.INTER_AREA)
     
-    image2 = cv2.resize(image2, (512,512), interpolation = cv2.INTER_AREA)
-    
-    cv2.imshow("sketch", image)
-    cv2.imshow("gen", image2)
+    # cv2.imshow("sketch", image)
+    cv2.imshow("og", og)
+    cv2.imshow("gen", img)
+    cv2.imshow("bw", img2)
     cv2.waitKey()
     cv2.destroyAllWindows()
     
@@ -63,3 +69,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+    
