@@ -1,4 +1,5 @@
 from flask import Flask, request, send_file , Response
+import io
 import os
 import sys
 
@@ -20,9 +21,10 @@ from flask_cors import CORS, cross_origin
 from enhancer.gfpgan import GFPGAN
 
 modelPath = os.path.join(*[ROOT_DIR, 'model', 'model_saved', 'generator_weight.h5'])
-gfpgan = GFPGAN(os.path.join(*[ROOT_DIR, 'model', 'model_saved', 'GFPGANv1.4.pth']))
+gfpgan = GFPGAN(os.path.join(*[ROOT_DIR, 'model', 'model_saved', 'GFPGANv1.3.pth']))
 predictOnePath = os.path.join(*[ROOT_DIR, 'api', 'firstImg.png'])
 predictTwoPath = os.path.join(*[ROOT_DIR, 'api', 'secondImg.png'])
+predictTwoBwPath=os.path.join(*[ROOT_DIR, 'api', 'blackWhite.png'])
 base_back_img = os.path.join(*[ROOT_DIR, 'api', 'og.jpg'])
 
 app = Flask(__name__)
@@ -56,7 +58,29 @@ def process_image():
             gfpgan.enhance(gen_image, predictTwoPath)
         else:
             gfpgan.enhance(predictTwoPath, predictTwoPath)
-    return send_file(predictTwoPath, mimetype='image/png')
+    img_bw = cv2.imread(predictTwoPath, 0)
+    cv2.imwrite(predictTwoBwPath, img_bw)
+
+    image1 = open(predictTwoPath, "rb")
+    image2 = open(predictTwoBwPath, "rb")
+
+    # Convert the images to binary data
+    image1_data = io.BytesIO(image1.read())
+    image2_data = io.BytesIO(image2.read())
+
+    # Close the image files
+    image1.close()
+    image2.close()
+
+    # Set the response headers to indicate binary data
+    headers = {
+        'Content-Type': 'application/octet-stream',
+        'Content-Disposition': 'attachment; filename=image1.jpg'
+    }
+
+    # Return the two images as binary data in the response
+    return send_file(image1_data, mimetype='image/png', headers=headers), send_file(image2_data, mimetype='image/png', headers=headers)
+    # return send_file(predictTwoPath, mimetype='image/png')
 
 
 
@@ -71,5 +95,5 @@ def get_img(id):
 
 if __name__ == "__main__":
     # app.run(debug=True)
-    app.run(host="0.0.0.0", debug=True, port=int(os.environ.get("PORT", 5000)))
+    app.run(host="0.0.0.0", debug=True, port=int(os.environ.get("PORT", 2000)))
     
