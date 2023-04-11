@@ -1,16 +1,6 @@
 # **s2f_model_senior_project**
 
-## Try to use
-1. set up environment
+This is a senior project about **"Facial Image Synthesis from Sketches based on Deep Learning Techniques"**. For this Respository is use for create and deploy model only.
 
-```
-./setup.sh
-```
-
-2. test
-
-```
-cd model
-
-python main.py {input_image}
-```
+## Respository for website
+https://github.com/Pachara2001/s2f_web_senior_project

@@ -28,7 +28,7 @@ def main():
         generator = Generator().load_model('model_saved/generator_weight_1.h5')
         gfpgan = GFPGAN('model_saved/GFPGANv1.3.pth')
     else:
-        generator = Generator().load_model('model_saved/generator_weight.h5')
+        generator = Generator().load_model('model_saved/t_generator_0.h5')
         gfpgan = GFPGAN('model_saved/GFPGANv1.4.pth')
     
     # ## Predict stage 1 by ours model
